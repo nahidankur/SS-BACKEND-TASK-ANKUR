@@ -28,6 +28,22 @@ const getAllMovies = async (req, res) => {
 //   }
 // };
 
+const getMovieById = async (req, res) => {
+    try {
+    //   if (!req.user) {
+    //     return res.status(401).json({ error: 'Unauthorized' });
+    //   } for authenticated user only. But this time we want to show each movie to the guests as well, so this part is commented
+      const movie = await Movie.findById(req.params.id);
+      if (!movie) {
+        return res.status(404).json({ error: 'Movie not found' });
+      }
+      res.json(movie);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Something went wrong' });
+    }
+  };
+
 const createMovie = async (req, res) => {
   try {
     const { title, actors, crews, runtime } = req.body;
@@ -53,4 +69,4 @@ const createMovie = async (req, res) => {
   }
 };
 
-module.exports = { getAllMovies, createMovie };
+module.exports = { getAllMovies, getMovieById, createMovie };
