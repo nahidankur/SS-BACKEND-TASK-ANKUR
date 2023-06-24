@@ -25,14 +25,9 @@ MovieApi is a Node.js API built with Express.js that allows registered users to 
 
 1. Clone the repository:
 
-```
-git clone https://github.com/your-username/MovieApi.git
-```
-
 2. Install the dependencies:
 
 ```
-cd MovieApi
 npm install
 ```
 
