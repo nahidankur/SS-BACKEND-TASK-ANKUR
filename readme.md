@@ -38,7 +38,7 @@ npm install
 
      ```
      PORT=3000
-     MONGO_URI=<your_mongodb_uri>
+     MONGO_URL=<your_mongodb_uri>
      JWT_SECRET=<your_jwt_secret>
      ```
 
