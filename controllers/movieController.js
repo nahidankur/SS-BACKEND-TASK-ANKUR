@@ -69,4 +69,55 @@ const createMovie = async (req, res) => {
   }
 };
 
-module.exports = { getAllMovies, getMovieById, createMovie };
+const updateMovie = async (req, res) => {
+  try {
+    const { title, actors, crews, runtime } = req.body;
+    const movieId = req.params.id;
+
+    // Check if the user is an admin
+    if (!req.user.isAdmin) {
+      return res.status(403).json({ error: 'Unauthorized' });
+    }
+
+    // Find the movie by ID and update its details
+    const updatedMovie = await Movie.findByIdAndUpdate(
+      movieId,
+      { title, actors, crews, runtime },
+      { new: true }
+    );
+
+    if (!updatedMovie) {
+      return res.status(404).json({ error: 'Movie not found' });
+    }
+
+    res.json(updatedMovie);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Something went wrong' });
+  }
+};
+
+const deleteMovie = async (req, res) => {
+  try {
+    const movieId = req.params.id;
+
+    // Check if the user is an admin
+    if (!req.user.isAdmin) {
+      return res.status(403).json({ error: 'Unauthorized' });
+    }
+
+    // Find the movie by ID and delete it
+    const deletedMovie = await Movie.findByIdAndDelete(movieId);
+
+    if (!deletedMovie) {
+      return res.status(404).json({ error: 'Movie not found' });
+    }
+
+    res.json({ message: 'Movie deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Something went wrong' });
+  }
+};
+
+module.exports = { getAllMovies, getMovieById, createMovie, updateMovie, deleteMovie };
